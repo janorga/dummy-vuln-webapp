@@ -73,7 +73,7 @@ CREATE TABLE `Users` (
 
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES (1,'Paco','González','pgonzalez@scexmaple.com','admin','3b0879e0c5503e19e2d2ee78318679fe');
+INSERT INTO `Users` VALUES (1,'Paco','González','pgonzalez@scexmaple.com','admin','0192023a7bbd73250516f069df18b500');
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
