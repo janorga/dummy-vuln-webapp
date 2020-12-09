@@ -1,0 +1,19 @@
+version: "3.0"
+services:
+
+  webapp:
+    build: ./webapp
+    image: vuln-webapp:1.0
+    ports:
+      - 80:80
+    depends_on:
+      - db
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: user
+      MYSQL_DATABASE: scdb
+    volumes:
+      - ./mysql-dump:/docker-entrypoint-initdb.d

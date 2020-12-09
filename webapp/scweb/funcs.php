@@ -1,0 +1,140 @@
+<?php
+
+$listall = 1;
+$senName = "";
+
+if (isset($_GET ['senName'])) {
+	$listall = 0;
+	$senName = $_GET ['senName'];
+}
+
+if (isset($_POST ['name']) && $_POST ['name']!=null) {
+	$postName = $_POST ['name'];
+	$postValue = $_POST ['value'];
+	$postDescr = $_POST ['description'];
+	insertSensor($postName,$postValue,$postDescr);
+	header('Location: http://'.$_SERVER['HTTP_HOST'].'/scweb/scweb.php');
+}
+if (isset($_POST ['id']) && $_POST ['id']!=null) {
+	deleteSensor($_POST ['id']);
+	header('Location: http://'.$_SERVER['HTTP_HOST'].'/scweb/scweb.php');
+}
+
+function db(){
+
+	$host = "db"; 
+	$user = "root"; 
+	$pass = "user"; 
+	$db = "scdb";
+	
+ $state="'nothing'";
+ 
+	$dbconn = mysqli_connect($host, $user, $pass,$db);
+
+	if (!$dbconn) {
+		  $state = "Could not connect to server\n";
+		  //trigger_error(mysql_error(), E_USER_ERROR);
+	} else {
+			 $state = "Connection established\n"; 
+	}
+
+
+return $dbconn;
+}
+
+function doLogin($user,$pass,$role) {
+	
+	$dbconn = db();
+
+     	$sql = "SELECT * FROM Users WHERE nickname = '".$user."' AND pass='".md5($pass)."'";
+      	$query = mysqli_query($dbconn,$sql);      
+     	$count = mysqli_num_rows($query);
+     	if($count == 1) {
+     		
+		return true;
+		
+      	}else {
+         	return false;
+      	}
+      	
+      	mysql_close();
+      	return false;
+}
+function listsensors(){
+	$dbconn = db();
+
+	$sen = "SELECT * FROM Sensors ";
+	$query = mysqli_query($dbconn, $sen);
+	if (!$query) {
+		  //echo "Could not execute query: $query";
+		  trigger_error(mysql_error(), E_USER_ERROR); 
+	} else {
+		 // echo "Query: $query executed\n";
+	} 
+	$rows = array();
+
+	while ($r = mysqli_fetch_assoc($query)) {
+		  $rows[] = $r;
+	}
+
+	mysql_close();
+	
+	return json_encode($rows);
+}
+
+function insertSensor($name,$value,$descr){
+	$dbconn = db();
+
+	$sen = "INSERT INTO Sensors (name, value, description) VALUES ('".$name."', ".$value.", '".$descr."')";
+	$query = mysqli_query($dbconn, $sen);
+	if (!$query) {
+		  //echo "Could not execute query: $query";
+		  trigger_error(mysql_error(), E_USER_ERROR); 
+	} else {
+		 // echo "Query: $query executed\n";
+	} 
+}
+
+function searchSensor($senName){
+	if ($senName=="") return "''";
+	$dbconn = db();
+
+	$sen = "SELECT * FROM Sensors WHERE name LIKE '%". $senName."%'";
+	$query = mysqli_query($dbconn, $sen);
+	if (!$query) {
+		  //echo "Could not execute query: $query";
+		  trigger_error(mysql_error(), E_USER_ERROR); 
+	} else {
+		 // echo "Query: $query executed\n";
+	} 
+	$rows = array();
+
+	while ($r = mysqli_fetch_assoc($query)) {
+		  $rows[] = $r;
+	}
+
+	mysql_close();
+	
+	return json_encode($rows);
+}
+
+function deleteSensor($id){
+	$dbconn = db();
+
+	$sen = "DELETE FROM Sensors WHERE id=".$id;
+	$query = mysqli_query($dbconn, $sen);
+	if (!$query) {
+		  //echo "Could not execute query: $query";
+		  trigger_error(mysql_error(), E_USER_ERROR); 
+	} else {
+		 // echo "Query: $query executed\n";
+	} 
+}
+
+?>
+
+<script>
+	var SENSORS=<?php echo listsensors(); ?>;
+	var LISTALL=<?php echo $listall; ?>;
+	var SEARCHEDSENSOR=<?php echo searchSensor($senName); ?>;
+</script>

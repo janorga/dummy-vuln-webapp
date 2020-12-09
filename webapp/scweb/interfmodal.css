@@ -1,0 +1,37 @@
+body { padding-top: 70px; }
+.modal-dialog {
+    width: 475px;
+}
+.modal-dialog-table {
+    width: 450px !important;
+}
+.prueba {
+    width: 600px !important;
+}
+.modal-footer {
+    height: 70px;
+    margin: 0;
+}
+.modal-footer .btn {
+    font-weight: bold;
+}
+.modal-footer .progress {
+    display: none;
+    height: 32px;
+    margin: 0;
+}
+.checkbox-table {
+    margin-bottom: 0px;
+    margin-top: 0px;
+    text-align: center; /* center checkbox horizontally */
+    vertical-align: middle; /* center checkbox vertically */
+}
+.checkbox-big {
+    width: 17px;
+    height: 17px;
+}
+.input-group-addon {
+    color: #fff;
+    background: #3276B1;
+}
+
