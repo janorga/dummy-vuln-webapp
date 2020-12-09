@@ -15,5 +15,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: user
       MYSQL_DATABASE: scdb
+    healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            timeout: 20s
+            retries: 12
     volumes:
       - ./mysql-dump:/docker-entrypoint-initdb.d
