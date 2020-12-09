@@ -1,6 +1,6 @@
 ## Description
 
-This is a dummy vulnerable web app to check and test SQL easy injection attacks and XSS.
+This is a dummy vulnerable web app built for checking and testing SQL easy injection attacks and XSS.
 
 Docker Engine is required. Docker install instructions: https://docs.docker.com/engine/install/ubuntu/
 
