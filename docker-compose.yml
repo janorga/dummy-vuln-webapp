@@ -6,12 +6,15 @@ services:
     image: vuln-webapp:1.0
     ports:
       - 80:80
+    volumes:
+      - ${PWD}/webapp/scweb:/var/www/web/scweb
     depends_on:
       - db
 
   db:
-    image: mysql
-    command: --default-authentication-plugin=mysql_native_password
+    # image: mysql
+    build: ./db
+    command: ['--default-authentication-plugin=mysql_native_password', '--secure-file-priv=/var/www/web/scweb']
     environment:
       MYSQL_ROOT_PASSWORD: user
       MYSQL_DATABASE: scdb
@@ -21,3 +24,4 @@ services:
             retries: 12
     volumes:
       - ./mysql-dump:/docker-entrypoint-initdb.d
+      - ${PWD}/webapp/scweb:/var/www/web/scweb
